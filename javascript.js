@@ -19,6 +19,7 @@ res.appendChild(winner);
 // styling
 container.style.cssText = "display:flex;gap:16px;justify-content:center;margin:32px 0px";
 res.style.cssText = "display:flex; flex-direction:column; gap:6px;align-items:center";
+winner.style.cssText = "color: red; font-size: 36px; font-weight: bold";
 
 
 function getComputerChoice(){
