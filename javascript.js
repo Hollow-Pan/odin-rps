@@ -1,7 +1,7 @@
 let humanScore = 0;
 let computerScore = 0;
 
-
+const container = document.querySelector(".container");
 const res = document.querySelector(".res");
 
 const result1 = document.createElement("div");
@@ -16,7 +16,9 @@ res.appendChild(result1);
 res.appendChild(result2);
 res.appendChild(winner);
 
-
+// styling
+container.style.cssText = "display:flex;gap:16px;justify-content:center;margin:32px 0px";
+res.style.cssText = "display:flex; flex-direction:column; gap:6px;align-items:center";
 
 
 function getComputerChoice(){
@@ -37,7 +39,8 @@ function getHumanChoice(event){
 
 function winCond(str){
     winner.textContent = str + "WIN";
-    winner.textContent += (str === "YOU ") ? "!" : "S!";
+    winner.textContent += (str === "YOU ") ? " " : "S ";
+    winner.textContent += "THE GAME!";
 }
 
 function humanWins(human, computer){
