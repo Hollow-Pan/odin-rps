@@ -1,6 +1,24 @@
 let humanScore = 0;
 let computerScore = 0;
 
+
+const res = document.querySelector(".res");
+
+const result1 = document.createElement("div");
+const result2 = document.createElement("div");
+const winner = document.createElement("div");
+
+result1.classList.add("result");
+result2.classList.add("result");
+winner.classList.add("winner");
+
+res.appendChild(result1);
+res.appendChild(result2);
+res.appendChild(winner);
+
+
+
+
 function getComputerChoice(){
     let num = Math.floor(Math.random()*3);
     switch(num){
@@ -13,45 +31,49 @@ function getComputerChoice(){
     }
 }
 
-function getHumanChoice(){
-    let ans = prompt("Choose! Rock, Paper, or Scissors?");
-    return ans.toUpperCase();
+function getHumanChoice(event){
+    return event.target.className.toUpperCase();
+}
+
+function winCond(str){
+    winner.textContent = str + "WIN";
+    winner.textContent += (str === "YOU ") ? "!" : "S!";
 }
 
 function humanWins(human, computer){
     humanScore++;
-    console.log("You win! " + human + " beats " + computer);
-    console.log("YOU: " + humanScore + ", COMPUTER: " + computerScore);
+    if(humanScore === 5){
+        winCond("YOU ");
+        buttons.forEach((btn) => btn.removeEventListener("click", playRound));
+    }
+    result1.textContent = "You win! " + human + " beats " + computer;
+    result2.textContent = "YOU: " + humanScore + ", COMPUTER: " + computerScore;
 }
 
 function computerWins(human, computer){
     computerScore++;
-    console.log("You lose! " + human + " loses to " + computer);
-    console.log("YOU: " + humanScore + ", COMPUTER: " + computerScore);
+    if(computerScore === 5){
+        winCond("COMPUTER ");
+        buttons.forEach((btn) => btn.removeEventListener("click", playRound));
+    }
+    result1.textContent = "You lose! " + human + " loses to " + computer;
+    result2.textContent = "YOU: " + humanScore + ", COMPUTER: " + computerScore;
 }
 
 function tie(human, computer){
-    console.log("Its a tie! " + human + " and " + computer + " is a draw.");
-    console.log("YOU: " + humanScore + ", COMPUTER: " + computerScore);
+    result1.textContent = "Its a tie! " + human + " and " + computer + " is a draw.";
+    result2.textContent = "YOU: " + humanScore + ", COMPUTER: " + computerScore;
 }
 
-function playRound(){
-    let humanChoice = getHumanChoice();
+function playRound(event){
+    let humanChoice = getHumanChoice(event);
     let computerChoice = getComputerChoice();
+    event.preventDefault();
 
     if ((humanChoice==="ROCK" && computerChoice==="PAPER") || (humanChoice==="PAPER" && computerChoice==="SCISSORS") || (humanChoice==="SCISSORS" && computerChoice==="ROCK")) computerWins(humanChoice, computerChoice);
     else if ((humanChoice==="PAPER" && computerChoice==="ROCK") || (humanChoice==="SCISSORS" && computerChoice==="PAPER") || (humanChoice==="ROCK" && computerChoice==="SCISSORS")) humanWins(humanChoice, computerChoice);
     else tie(humanChoice, computerChoice);
 }
 
-function playGame(){
-    playRound();
-    playRound();
-    playRound();
-    playRound();
-    playRound();
-
-    console.log(humanScore > computerScore ? "Congratulations, you win!" : "Oof, better luck next time!");
-}
-
-playGame();
+let buttons = Array.from(document.querySelectorAll(".container button"));
+buttons.forEach((btn) => btn.addEventListener("click", playRound));
